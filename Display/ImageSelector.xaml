@@ -1,0 +1,48 @@
+﻿<UserControl x:Class="wfc_demo.Display.ImageSelector"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:logic="clr-namespace:wfc_demo.Logic"
+             xmlns:local="clr-namespace:wfc_demo.Display"
+             mc:Ignorable="d" 
+             d:DesignHeight="200" d:DesignWidth="200" MouseDown="UserControl_MouseDown">
+    <UserControl.Resources>
+        <Style x:Key="ButtonStyle" TargetType="Button">
+            <Setter Property="Margin" Value="10"></Setter>
+        </Style>
+        <Style x:Key="TextBoxStyle">
+            <Setter Property="FrameworkElement.Margin" Value="5"></Setter>
+            <Setter Property="FrameworkElement.VerticalAlignment" Value="Center"></Setter>
+            <Setter Property="TextBlock.TextAlignment" Value="Center"></Setter>
+            <Setter Property="TextBlock.Foreground" Value="Gray"></Setter>
+            <Setter Property="TextBox.TextAlignment" Value="Center"></Setter>
+            <Style.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="3"></Setter>
+                </Style>
+            </Style.Resources>
+        </Style>
+        <logic:TextToVisibility x:Key="textToVisibility"/>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="6*"/>
+            <RowDefinition Height="6*"/>
+            <RowDefinition Height="3*" MaxHeight="50"/>
+            <RowDefinition Height="3*" MaxHeight="50"/>
+        </Grid.RowDefinitions>
+        <UniformGrid Grid.RowSpan="2" Grid.ColumnSpan="2">
+            
+        </UniformGrid>
+        <Button Name="OpenImageButton" Grid.Column="1" Grid.Row="2" Grid.RowSpan="2" Style="{StaticResource ButtonStyle}">Open</Button>
+        <TextBox Name="WidthTB" Grid.Row="2" Style="{StaticResource TextBoxStyle}"></TextBox>
+        <TextBlock Name="WidthHint" Grid.Row="2" Style="{StaticResource TextBoxStyle}" Visibility="{Binding ElementName=WidthTB, Path=Text, Converter={StaticResource textToVisibility}}">Width</TextBlock>
+        <TextBox Name="HeightTB" Grid.Row="3" Style="{StaticResource TextBoxStyle}"></TextBox>
+        <TextBlock Name="HeightHint" Grid.Row="3" Style="{StaticResource TextBoxStyle}" Visibility="{Binding ElementName=HeightTB, Path=Text, Converter={StaticResource textToVisibility}}">Height</TextBlock>
+    </Grid>
+</UserControl>

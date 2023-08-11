@@ -1,0 +1,22 @@
+﻿<Window x:Class="wfc_demo.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:display="clr-namespace:wfc_demo.Display"
+        xmlns:local="clr-namespace:wfc_demo"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="8*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <display:TiledDisplay Grid.Column="0">
+            
+        </display:TiledDisplay>
+        <display:ImageSelector Grid.Column="1">
+            
+        </display:ImageSelector>
+    </Grid>
+</Window>
