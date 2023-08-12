@@ -3,27 +3,33 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:logic="clr-namespace:wfc_demo.Logic"
+             xmlns:logic="clr-namespace:wfc_demo.Utility"
              xmlns:local="clr-namespace:wfc_demo.Display"
              mc:Ignorable="d" 
-             d:DesignHeight="200" d:DesignWidth="200" MouseDown="UserControl_MouseDown">
+             d:DesignHeight="200" d:DesignWidth="200" MouseDown="UserControl_MouseDown"
+             DataContext="{Binding RelativeSource={RelativeSource Self}}">
     <UserControl.Resources>
         <Style x:Key="ButtonStyle" TargetType="Button">
-            <Setter Property="Margin" Value="10"></Setter>
-        </Style>
-        <Style x:Key="TextBoxStyle">
-            <Setter Property="FrameworkElement.Margin" Value="5"></Setter>
-            <Setter Property="FrameworkElement.VerticalAlignment" Value="Center"></Setter>
-            <Setter Property="TextBlock.TextAlignment" Value="Center"></Setter>
-            <Setter Property="TextBlock.Foreground" Value="Gray"></Setter>
-            <Setter Property="TextBox.TextAlignment" Value="Center"></Setter>
+            <Setter Property="Margin" Value="7"></Setter>
             <Style.Resources>
                 <Style TargetType="{x:Type Border}">
                     <Setter Property="CornerRadius" Value="3"></Setter>
                 </Style>
             </Style.Resources>
         </Style>
+        <Style x:Key="TextBoxStyle">
+            <Setter Property="FrameworkElement.Margin" Value="5"/>
+            <Setter Property="FrameworkElement.VerticalAlignment" Value="Center"/>
+            <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+            <Setter Property="TextBox.TextAlignment" Value="Center"/>
+            <Style.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="3"/>
+                </Style>
+            </Style.Resources>
+        </Style>
         <logic:TextToVisibility x:Key="textToVisibility"/>
+        <logic:StringToInt x:Key="stringToInt"/>
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -36,13 +42,21 @@
             <RowDefinition Height="3*" MaxHeight="50"/>
             <RowDefinition Height="3*" MaxHeight="50"/>
         </Grid.RowDefinitions>
-        <UniformGrid Grid.RowSpan="2" Grid.ColumnSpan="2">
-            
-        </UniformGrid>
-        <Button Name="OpenImageButton" Grid.Column="1" Grid.Row="2" Grid.RowSpan="2" Style="{StaticResource ButtonStyle}">Open</Button>
-        <TextBox Name="WidthTB" Grid.Row="2" Style="{StaticResource TextBoxStyle}"></TextBox>
-        <TextBlock Name="WidthHint" Grid.Row="2" Style="{StaticResource TextBoxStyle}" Visibility="{Binding ElementName=WidthTB, Path=Text, Converter={StaticResource textToVisibility}}">Width</TextBlock>
-        <TextBox Name="HeightTB" Grid.Row="3" Style="{StaticResource TextBoxStyle}"></TextBox>
-        <TextBlock Name="HeightHint" Grid.Row="3" Style="{StaticResource TextBoxStyle}" Visibility="{Binding ElementName=HeightTB, Path=Text, Converter={StaticResource textToVisibility}}">Height</TextBlock>
+        <Viewbox Name="TilesetDisplay" Grid.RowSpan="2" Grid.ColumnSpan="2" Stretch="Uniform">
+            <Canvas Width="{Binding ElementName=ImageDisplay, Path=Width}" Height="{Binding ElementName=ImageDisplay, Path=Height}">
+                <Image Name="ImageDisplay" RenderOptions.BitmapScalingMode="NearestNeighbor"/>
+                <local:GridOverlay LineInterval="{Binding Path=TileSize}"
+                                   LineColor="{Binding Path=ContrastColor}"
+                                   Width="{Binding ElementName=ImageDisplay, Path=Width}"
+                                   Height="{Binding ElementName=ImageDisplay, Path=Height}"/>
+            </Canvas>
+        </Viewbox>
+        <Button Name="OpenImageButton" Grid.Column="1" Grid.Row="2" Grid.RowSpan="2" Style="{StaticResource ButtonStyle}" Click="OpenImageButton_Click">Open</Button>
+        <TextBox Name="SizeTB" Grid.Row="2" Style="{StaticResource TextBoxStyle}" KeyDown="SizeTB_KeyDown" InputScope="Digits"></TextBox>
+        <TextBlock Name="SizeHint" Grid.Row="2"
+                   Style="{StaticResource TextBoxStyle}"
+                   Foreground="Gray"
+                   Visibility="{Binding ElementName=SizeTB, Path=Text, Converter={StaticResource textToVisibility}}">Size</TextBlock>
+        <Button Name="CutImageButton" Grid.Row="3" Style="{StaticResource ButtonStyle}">Slice</Button>
     </Grid>
 </UserControl>

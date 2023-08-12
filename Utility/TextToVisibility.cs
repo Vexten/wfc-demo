@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 
-namespace wfc_demo.Logic
+namespace wfc_demo.Utility
 {
     [ValueConversion(typeof(string), typeof(Visibility))]
     internal class TextToVisibility : IValueConverter
